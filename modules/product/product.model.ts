@@ -15,8 +15,8 @@ const Product = sequelize.define(
       allowNull: false,
     },
     price: {
-      type: DataTypes.DECIMAL,
-      allowNull: false,
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: true,
     },
     discount: {
       type: DataTypes.INTEGER,
@@ -42,3 +42,50 @@ const Product = sequelize.define(
   },
   { freezeTableName: true, createdAt: "created_at", updatedAt: "updated_at" }
 );
+
+const ProductDetail = sequelize.define(
+  "product_detail",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    key: { type: DataTypes.STRING, allowNull: true },
+    value: { type: DataTypes.STRING, allowNull: true },
+    product_id: {
+      type: DataTypes.INTEGER,
+    },
+  },
+  { freezeTableName: false }
+);
+
+const ProductColor = sequelize.define(
+  "product_color",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    color_name: { type: DataTypes.STRING, allowNull: true },
+    color_code: { type: DataTypes.STRING, allowNull: true },
+    product_id: { type: DataTypes.INTEGER },
+    count: { type: DataTypes.INTEGER, defaultValue: 0 },
+    price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0 },
+    discount: { type: DataTypes.INTEGER, allowNull: true },
+    active_discount: { type: DataTypes.BOOLEAN, defaultValue: false },
+  },
+  { freezeTableName: false }
+);
+
+const ProductSize = sequelize.define(
+  "product_size",
+  {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    size: { type: DataTypes.STRING, allowNull: true },
+    product_id: { type: DataTypes.INTEGER },
+    count: { type: DataTypes.INTEGER, defaultValue: 0 },
+    price: { type: DataTypes.DECIMAL(10, 2), defaultValue: 0 },
+    discount: { type: DataTypes.INTEGER, allowNull: true },
+    active_discount: { type: DataTypes.BOOLEAN, defaultValue: false },
+  },
+  { freezeTableName: false }
+);
+export { Product, ProductDetail, ProductColor, ProductSize };

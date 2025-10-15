@@ -8,7 +8,7 @@ const sequelize = new Sequelize({
   password: process.env.DB_PASSWORD || "13121376",
   host: process.env.DB_HOST || "localhost",
   port: parseInt(process.env.DB_PORT || "3306"),
-  showWarnings: true,
+  showWarnings: false,
   connectTimeout: 1000,
   logging: false,
 });
