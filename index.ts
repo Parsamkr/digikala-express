@@ -9,6 +9,7 @@ import "dotenv/config";
 import initDatabase from "./config/models.initial";
 import { productRouter } from "./modules/product/product.routes";
 import { authRouter } from "./modules/auth/auth.routes";
+import { basketRouter } from "./modules/basket/basket.routes";
 
 async function main() {
   const app = express();
@@ -22,6 +23,7 @@ async function main() {
   // routes
   app.use("/product", productRouter);
   app.use("/auth", authRouter);
+  app.use("/basket", basketRouter);
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).json({ message: "Not Found" });
