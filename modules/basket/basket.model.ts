@@ -12,7 +12,7 @@ const Basket = sequelize.define(
     discount_id: { type: DataTypes.INTEGER, allowNull: true },
     count: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 1 },
   },
-  { freezeTableName: true, timestamps: false }
+  { freezeTableName: true, createdAt: "created_at", updatedAt: "updated_at" }
 );
 
 export default Basket;

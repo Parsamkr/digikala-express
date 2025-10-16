@@ -1,5 +1,7 @@
 import Basket from "../modules/basket/basket.model";
 import Discount from "../modules/discount/discount.model";
+import { Order, OrderItem } from "../modules/order/order.model";
+import Payment from "../modules/payment/payment.model";
 import {
   Product,
   ProductColor,
@@ -118,16 +120,95 @@ async function initDatabase() {
     targetKey: "id",
     as: "product",
   });
-  Basket.hasMany(Discount, {
-    foreignKey: "basket_id",
+
+  Discount.hasMany(Basket, {
+    foreignKey: "discount_id",
     sourceKey: "id",
-    as: "discounts",
+    as: "baskets",
   });
-  Discount.belongsTo(Basket, {
-    foreignKey: "basket_id",
+  Basket.belongsTo(Discount, {
+    foreignKey: "discount_id",
     targetKey: "id",
-    as: "basket",
+    as: "discount",
   });
+
+  Order.hasMany(OrderItem, {
+    foreignKey: "order_id",
+    sourceKey: "id",
+    as: "order_items",
+  });
+  OrderItem.belongsTo(Order, {
+    foreignKey: "order_id",
+    targetKey: "id",
+    as: "order",
+  });
+
+  Product.hasMany(OrderItem, {
+    foreignKey: "product_id",
+    sourceKey: "id",
+    as: "order_items",
+  });
+  OrderItem.belongsTo(Product, {
+    foreignKey: "product_id",
+    targetKey: "id",
+    as: "product",
+  });
+
+  ProductColor.hasMany(OrderItem, {
+    foreignKey: "color_id",
+    sourceKey: "id",
+    as: "order_items",
+  });
+  OrderItem.belongsTo(ProductColor, {
+    foreignKey: "color_id",
+    targetKey: "id",
+    as: "color",
+  });
+
+  ProductSize.hasMany(OrderItem, {
+    foreignKey: "size_id",
+    sourceKey: "id",
+    as: "order_items",
+  });
+  OrderItem.belongsTo(ProductSize, {
+    foreignKey: "size_id",
+    targetKey: "id",
+    as: "size",
+  });
+
+  User.hasMany(Order, {
+    foreignKey: "user_id",
+    sourceKey: "id",
+    as: "orders",
+  });
+  Order.belongsTo(User, {
+    foreignKey: "user_id",
+    targetKey: "id",
+    as: "user",
+  });
+
+  Order.hasOne(Payment, {
+    foreignKey: "order_id",
+    sourceKey: "id",
+    as: "payment",
+  });
+  Payment.belongsTo(Order, {
+    foreignKey: "order_id",
+    targetKey: "id",
+    as: "order",
+  });
+
+  User.hasMany(Payment, {
+    foreignKey: "user_id",
+    sourceKey: "id",
+    as: "payments",
+  });
+  Payment.belongsTo(User, {
+    foreignKey: "user_id",
+    targetKey: "id",
+    as: "user",
+  });
+
   // Sync all models at once
   await sequelize.sync({ alter: true });
 }

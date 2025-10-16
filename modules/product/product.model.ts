@@ -57,7 +57,7 @@ const ProductDetail = sequelize.define(
       type: DataTypes.INTEGER,
     },
   },
-  { freezeTableName: false }
+  { freezeTableName: true, timestamps: false }
 );
 
 const ProductColor = sequelize.define(
@@ -72,7 +72,7 @@ const ProductColor = sequelize.define(
     discount: { type: DataTypes.INTEGER, allowNull: true },
     active_discount: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
-  { freezeTableName: false }
+  { freezeTableName: true, timestamps: false }
 );
 
 const ProductSize = sequelize.define(
@@ -86,6 +86,6 @@ const ProductSize = sequelize.define(
     discount: { type: DataTypes.INTEGER, allowNull: true },
     active_discount: { type: DataTypes.BOOLEAN, defaultValue: false },
   },
-  { freezeTableName: false }
+  { freezeTableName: true, timestamps: false }
 );
 export { Product, ProductDetail, ProductColor, ProductSize };
