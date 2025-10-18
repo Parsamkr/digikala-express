@@ -30,9 +30,6 @@ const OrderItem = sequelize.define(
     size_id: { type: DataTypes.INTEGER, allowNull: true },
     color_id: { type: DataTypes.INTEGER, allowNull: true },
     count: { type: DataTypes.INTEGER, allowNull: false },
-    price: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
-    discount: { type: DataTypes.INTEGER, defaultValue: 0 },
-    final_amount: { type: DataTypes.DECIMAL(10, 2), allowNull: false },
   },
   { freezeTableName: true, timestamps: false }
 );

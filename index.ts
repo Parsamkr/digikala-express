@@ -10,6 +10,8 @@ import initDatabase from "./config/models.initial";
 import { productRouter } from "./modules/product/product.routes";
 import { authRouter } from "./modules/auth/auth.routes";
 import { basketRouter } from "./modules/basket/basket.routes";
+import { paymentRouter } from "./modules/payment/payment.routes";
+import { orderRouter } from "./modules/order/order.routes";
 
 async function main() {
   const app = express();
@@ -24,6 +26,8 @@ async function main() {
   app.use("/product", productRouter);
   app.use("/auth", authRouter);
   app.use("/basket", basketRouter);
+  app.use("/payment", paymentRouter);
+  app.use("/order", orderRouter);
 
   app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(404).json({ message: "Not Found" });

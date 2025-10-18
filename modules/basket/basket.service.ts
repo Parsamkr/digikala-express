@@ -114,8 +114,19 @@ async function getUserBasketHandler(
 ) {
   try {
     const { id } = req.user as { id: number };
+
+    const basket = await getUserBasketById(id);
+
+    return res.status(200).json(basket);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getUserBasketById(user_id: number) {
+  try {
     const basket = await Basket.findAll({
-      where: { user_id: id },
+      where: { user_id },
       include: [
         {
           model: Product,
@@ -131,6 +142,10 @@ async function getUserBasketHandler(
         },
       ],
     });
+
+    if (!basket || basket.length === 0) {
+      throw createHttpError.BadRequest("No items in basket");
+    }
 
     let totalAmount = 0;
     let totalDiscount = 0;
@@ -213,15 +228,14 @@ async function getUserBasketHandler(
         finalBasket.push(productData);
       }
     }
-
-    res.status(200).json({
+    return {
       items: finalBasket,
       totalAmount,
       totalDiscount,
       finalAmount,
-    });
+    };
   } catch (error) {
-    next(error);
+    throw error;
   }
 }
-export { addToBasketHandler, getUserBasketHandler };
+export { addToBasketHandler, getUserBasketHandler, getUserBasketById };

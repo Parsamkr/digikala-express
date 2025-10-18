@@ -8,6 +8,7 @@ import {
   ProductDetail,
   ProductSize,
 } from "../modules/product/product.model";
+import { Role, Permission, RolePermission } from "../modules/RBAC/rbac.model";
 import { RefreshToken } from "../modules/user/refreshToken.model";
 import { Otp, User } from "../modules/user/user.model";
 import sequelize from "./sequelize.config";
@@ -209,6 +210,24 @@ async function initDatabase() {
     as: "user",
   });
 
+  Role.hasMany(RolePermission, {
+    foreignKey: "role_id",
+    sourceKey: "id",
+    as: "permissions",
+  });
+  RolePermission.belongsTo(Role, {
+    foreignKey: "role_id",
+    targetKey: "id",
+  });
+  Permission.hasMany(RolePermission, {
+    foreignKey: "permission_id",
+    sourceKey: "id",
+    as: "roles",
+  });
+  RolePermission.belongsTo(Permission, {
+    foreignKey: "permission_id",
+    targetKey: "id",
+  });
   // Sync all models at once
   await sequelize.sync({ alter: true });
 }
